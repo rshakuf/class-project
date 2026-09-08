@@ -1,4 +1,5 @@
 # consts.py
+import random
 BOARD_ROWS = 25
 BOARD_COLS = 50
 CELL_SIZE = 20 # pixels per cell
@@ -20,14 +21,14 @@ flag_col = BOARD_COLS - FLAG_COLS
 MINES_COUNT = 20
 MINE_ROWS = 1
 MINE_COLS = 3
-
+BUSH=20
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 # GREEN = (0, 255, 0)
 GREEN =(119, 154, 32)
 BLACK = (0, 0, 0)
-
-
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 FPS = 25
+li = random.sample(range(20, 900), 20)
+li2 = random.sample(range(20, 400), 20)

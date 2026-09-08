@@ -2,7 +2,8 @@ import pygame
 import sys
 import random
 import consts
-img = pygame.image.load('grass.png')
+import game_field
+img = pygame.image.load('mine.png')
 # image = pygame.transform.scale(img, (int(10* 0.5), int(10 * 0.5)))
 image=pygame.transform.scale(img,(50,50))
 def create_board ():
@@ -28,9 +29,12 @@ def create_board ():
 
         # --- draws ---
 
-        screen.fill(consts.GREEN)
-        for i in range(consts.BUSH):
-            screen.blit(image, (consts.li[i],consts.li2[i]))
+        screen.fill(consts.BLACK)
+
+        # for i in range(len(game_field.matrix())):
+        #     t = game_field.matrix()[i]
+        #     screen.blit(image,t[i], t[i])
+
 
 
         for i in range(consts.BUSH):
