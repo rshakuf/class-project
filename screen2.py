@@ -3,61 +3,23 @@ import sys
 import random
 import consts
 import game_field
+import soldier
+
 img = pygame.image.load('mine.png')
 # image = pygame.transform.scale(img, (int(10* 0.5), int(10 * 0.5)))
 image=pygame.transform.scale(img,(50,50))
-def create_board ():
-    screen = pygame.display.set_mode( (consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT) )
 
-    surface = pygame.surface.Surface(screen.get_size()).convert_alpha()
-    surface.fill([0,0,0,0])
-    # pygame.draw.polygon(surface, consts.RED, [(100,100), (200,200), (300,100)])
-
-    clock = pygame.time.Clock()
-
-    running = True
-    while running:
-
-        # --- events ---
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_ESCAPE:
-                    running = False
-
-        # --- draws ---
-
-        screen.fill(consts.BLACK)
-
-        # for i in range(len(game_field.matrix())):
-        #     t = game_field.matrix()[i]
-        #     screen.blit(image,t[i], t[i])
+img_soldier=pygame.image.load('soldier.png')
+image_soldier=pygame.transform.scale(img_soldier,(50,55))
 
 
+def bomb_screen(screen):
+    # --- draws ---
 
-        for i in range(consts.BUSH):
-            screen.blit(image, (consts.li[i], consts.li2[i]))
+    screen.fill(consts.BLACK)
 
+    screen.blit(image_soldier, (soldier.soldier_location[0], soldier.soldier_location[1]))
 
-        pygame.display.flip()
+    for i in game_field.list_of_mines:
+        screen.blit(image, (i[1], i[0]))
 
-        # --- FPS ---
-
-        ms = clock.tick(consts.FPS)
-        #pygame.display.set_caption('{}ms'.format(ms)) # 40ms for 25FPS, 16ms for 60FPS
-        fps = clock.get_fps()
-        pygame.display.set_caption('FPS: {}'.format(fps))
-
-    # --- end ---
-    # running = 1
-    # while running:
-    #     screen.fill((consts.GREEN))
-    #     screen.blit(img, (0, 0))
-    #     pygame.display.flip()
-
-    pygame.quit()
-
-if __name__=="__main__":
-    create_board()
