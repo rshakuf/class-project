@@ -13,12 +13,13 @@ def create_bomb_board():
 
     # img = pygame.image.load('mine.png')
     # image = pygame.transform.scale(img, (50, 50))
-    for i in range(consts.MINES_COUNT):
+    for i in range(consts.MINES_COUNT-1):
         row=random.randint(0, consts.BOARD_ROWS-1)
         col=random.randint(0, consts.BOARD_COLS-1)
-        while (row== consts.flag_row and col== consts.flag_col) or (row==consts.SOLDIER_ROWS and col==consts.SOLDIER_COLS):
-            row = random.randint(consts.BOARD_ROWS, consts.BOARD_COLS)
-            col = random.randint(consts.BOARD_ROWS, consts.BOARD_COLS)
+        while (row == consts.Y_FLAG and col == consts.X_FLAG) or (
+                row == consts.SOLDIER_Y and col == consts.SOLDIER_X):
+                row = random.randint(0, consts.BOARD_COLS-1)
+                col = random.randint(0, consts.BOARD_COLS-1)
         bomb_board[row][col] = 1
         new_row=row*consts.CELL_SIZE
         new_col=col* consts.CELL_SIZE
@@ -28,13 +29,6 @@ def create_bomb_board():
     print(list_of_mines)
     #return list_of_mines
 
-        # screen.blit(image, (consts.li[i], consts.li2[i]))
 
-
-
-# for row in range(len(bord)):
-#     for col in range(len(bord[row])):
-         # if row!=consts.flag_col and col!=consts.flag_row:
-         #     bord[row][col]=="1"
 
 # create_matrix()

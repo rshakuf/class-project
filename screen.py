@@ -26,14 +26,20 @@ def load_images():
     return images
 
 
+x_flag = 940
+y_flag = 440
 images = load_images()
+player_rect = images["soldier"].get_rect(
+    topleft=(soldier.soldier_location[0], soldier.soldier_location[1]))
+flag_rect = images["flag"].get_rect(topleft=(x_flag, y_flag))
+if player_rect.colliderect(flag_rect):
+    print("You won")
+
 screen = pygame.display.set_mode(
         (consts.WINDOW_WIDTH, consts.WINDOW_HEIGHT))
 
 clock = pygame.time.Clock()
 
-x_flag = 940
-y_flag = 440
 # Create a variable to store the
 # velocity of player's movement
 velocity = 12
@@ -67,12 +73,31 @@ def run_game():
     show_bombs = False
     game_over = False
     game_over_time = 0
+    game_won = False
+    game_won_time = 0
+
     oldepoch = time()
     run = True
     while run:
 
         if show_bombs:
             bomb_screen(screen)
+
+            # for i in range(10, 900, 35):
+            #     pygame.draw.line(window, (consts.GREENSPY), (0, i),
+            #                      (consts.CELL_SIZE * consts.BOARD_COLS, i))
+            # for i in range(10, 900, 35):
+            #     pygame.draw.line(window, (consts.GREENSPY), (i, 0),
+            #                      (i, consts.CELL_SIZE * consts.BOARD_ROWS))
+            for i in range(10, 900, 35):
+                for j in range(10, 900, 35):
+                    pygame.draw.line(window, (consts.GREENSPY), (i, 0),
+                                     (i, consts.CELL_SIZE * consts.BOARD_ROWS))
+                    pygame.draw.line(window, (consts.GREENSPY), (0, i),
+                                     (consts.CELL_SIZE * consts.BOARD_COLS, i))
+
+            pygame.display.update()
+
             if time() - oldepoch >= 1:
                 show_bombs = False
         else:
@@ -91,6 +116,28 @@ def run_game():
                          consts.GAME_OVER_LOCATION)
             if time() - game_over_time >= 2:
                 run = False
+        player_rect = images["soldier"].get_rect(
+                topleft=(soldier.soldier_location[0],
+                         soldier.soldier_location[1]))
+        flag_rect = images["flag"].get_rect(topleft=(consts.X_FLAG, consts.Y_FLAG))
+        if not game_won and player_rect.colliderect(flag_rect):
+            game_won = True
+            game_won_time = time()
+        if game_won:
+            draw_message("YOU WON!", consts.GAME_OVER_FONT_SIZE,
+                         consts.GAME_WON_COLOR,
+                         consts.GAME_OVER_LOCATION)
+        else:
+            game_won_time=time()
+        if time() - game_won_time >= 2:
+            run = False
+
+        # if game_won:
+        #     draw_message("YOU WON!", consts.GAME_OVER_FONT_SIZE,
+        #                  consts.GAME_WON_COLOR,
+        #                  consts.GAME_OVER_LOCATION)
+        # if time() - game_won_time >= 2:
+        #     run = False
 
         ms = clock.tick(consts.FPS)
         # pygame.display.set_caption('{}ms'.format(ms)) # 40ms for 25FPS, 16ms for 60FPS
@@ -108,6 +155,8 @@ def run_game():
 def show_board():
     running = True
     show_bombs = False
+    # game_won=False
+    # game_won_time = 0
 
     window.fill(consts.BACKGROUND_COLOR)
 
@@ -150,10 +199,29 @@ def show_board():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     show_bombs = True
+        # player_rect = images["soldier"].get_rect(
+        #         topleft=(soldier.soldier_location[0],
+        #                  soldier.soldier_location[1]))
+        # flag_rect = images["flag"].get_rect(topleft=(x_flag, y_flag))
+    #     if player_rect.colliderect(flag_rect):
+    #         game_won=True
+    #         game_won_time = time()
+    # if game_won:
+    #     draw_message("YOU WON!", consts.GAME_OVER_FONT_SIZE,
+    #                      consts.GAME_WON_COLOR,
+    #                      consts.GAME_OVER_LOCATION)
+    #     if time() - game_won_time >= 2:
+    #         sys.exit()
 
+
+
+
+        # if not game_won and soldier.check_collision_with_flag():
+        #        game_won = True
+        #        game_won_time = time()
+
+        #
     return running, show_bombs
-
-
 def draw_message(message, font_size, color, location):
     font = pygame.font.SysFont(consts.FONT_NAME, font_size)
     text_img = font.render(message, True, color)
